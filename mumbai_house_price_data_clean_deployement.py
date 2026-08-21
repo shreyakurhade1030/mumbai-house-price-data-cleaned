@@ -45,6 +45,13 @@ if st.button("Predict Price"):
         "latitude": [latitude],
         "longitude": [longitude]
     })
+    data = pd.get_dummies(data, columns=["city", "furnished", "locality", "property_type"])
+    model_features = model.feature_names_in_
+    for col in model_features:
+        if col not in data.columns:
+            data[col] = 0
+
+    data = data[model_features]
 
     prediction = model.predict(data)
 
